@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "es2017", // or "es2020", "esnext", etc.
+        "lib": [
+            "es2015"
+        ], // or ["es2020"], ["esnext"]
+        "module": "commonjs",
+        "outDir": ".build",
+        "rootDir": "./",
+        "baseUrl": "./",
+        "strict": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "../../layers/nodejs/node_modules/@types",
+            "../../layers/utility/",
+            "../../layers/utility/node_modules/",
+            "../../layers/utility/dist/types"
+        ],
+        "paths": {
+            "utility/*": [
+                "../../layers/utility/src/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -1,0 +1,75 @@
+service: sls-layers
+
+frameworkVersion: "4"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+
+layers:
+  node:
+    path: nodejs
+    name: SLSNodeLayers-${opt:stage, self:provider.stage}
+    description: Contains npm packages
+    compatibleRuntimes:
+      - nodejs18.x
+    package:
+      exclude:
+        - node_modules/utility/**
+  Utility:
+    path: nodejs
+    name: SLSUtilityLayers-${opt:stage, self:provider.stage}
+    description: Contains custom reusable utility functions
+    compatibleRuntimes:
+      - nodejs18.x
+    package:
+      exclude:
+        - node_modules/**
+      include:
+        - node_modules/utility/**
+
+resources:
+  Resources:
+    SLSNodeLambdaLayer:
+      Type: AWS::Lambda::LayerVersion
+      UpdateReplacePolicy: Retain
+      Properties:
+        Content:
+          S3Bucket: sls-lambda-layers
+          S3Key: node-lambda-layer.zip
+        CompatibleRuntimes:
+          - nodejs18.x
+        Description: "Node.js libraries for SLS"
+    SLSUtilityLambdaLayer:
+      Type: AWS::Lambda::LayerVersion
+      UpdateReplacePolicy: Retain
+      Properties:
+        Content:
+          S3Bucket: sls-lambda-layers
+          S3Key: utility-lambda-layer.zip
+        CompatibleRuntimes:
+          - nodejs18.x
+        Description: "Utility libraries for SLS"
+  Outputs:
+    NodeLibrariesExport:
+      Value:
+        Ref: SLSNodeLambdaLayer
+      Export:
+        Name: !Sub SLSNodeLambdaLayer-${opt:stage, self:provider.stage}
+    UtilityLibrariesExport:
+      Value:
+        Ref: SLSUtilityLambdaLayer
+      Export:
+        Name: !Sub SLSUtilityLambdaLayer-${opt:stage, self:provider.stage}
+
+package:
+  individually: true
+  exclude:
+    - utility/**
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  dotenv:
+    # default: project root
+    basePath: ../env/
