@@ -1,0 +1,21 @@
+{
+  "name": "sls-layers",
+  "version": "1.0.0",
+  "description": "Layer",
+  "private": true,
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "author": "",
+  "dependencies": {
+    "utility": "file:layers/utility"
+  },
+  "devDependencies": {},
+  "main": "index.ts",
+  "scripts": {
+    "complie": "tsc",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC"
+}
