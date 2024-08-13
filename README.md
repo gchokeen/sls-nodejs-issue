@@ -28,3 +28,15 @@ sls-api/services/account-service/tsconfig.json
 sls-api/layers/utility/tsconfig.json
 
 I want both getAccountModel, IAccount import working from utility module without issue.
+
+
+COMPILE LAYERS
+==============
+
+ - FOR DEPLOYMENT without dev dependecies 
+
+   ```(cd utility && npm install  && npm run compile && npm install --omit=dev) && (cd nodejs && npm install --omit=dev )```
+
+ - FOR LOCAL with dev dependecies 
+
+   ```(cd utility && npm install  && npm run compile && npm install) && (cd nodejs && npm install )```
